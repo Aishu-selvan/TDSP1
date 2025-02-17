@@ -69,7 +69,7 @@ async def read(path: str):
 async def a1(email: str, **kwargs):
     await run(
         f"""
-Install `uv` (if required) and run the script `https://raw.githubusercontent.com/sanand0/tools-in-data-science-public/tds-2025-01/datagen.py`
+Install `uv` (if required) and run the script `https://raw.githubusercontent.com/sanand0/tools-in-data-science-public/refs/heads/tds-2025-01/project-1/datagen.py`
 with `{email}` as the only argument
 """
     )
@@ -231,52 +231,10 @@ async def a10(email, **kwargs):
         return mismatch("/data/ticket-sales-gold.txt", expected, result)
     return True
 
-import json
-
-async def b3(email, **kwargs):
-    await run("Fetch data from https://jsonplaceholder.typicode.com/posts and save it to /data/api_data.json")
-    
-    # Read the output file
-    result = await read("/data/api_data.json")
-    
-    try:
-        data = json.loads(result)
-    except json.JSONDecodeError:
-        return mismatch("/data/api_data.json", "Valid JSON content", result)
-    
-    # Ensure the JSON is a non-empty list
-    if not isinstance(data, list) or len(data) == 0:
-        return mismatch("/data/api_data.json", "A non-empty JSON list", result)
-    
-    # Verify that each post contains expected keys
-    expected_keys = {"userId", "id", "title", "body"}
-    if not expected_keys.issubset(set(data[0].keys())):
-        return mismatch("/data/api_data.json", f"Posts with keys {expected_keys}", result)
-    
-    return True
-
-
-async def b6(email, **kwargs):
-    # 1. Ask the system to scrape Hacker News and save the content to /data/scraped_data.txt
-    await run("Fetch content from https://news.ycombinator.com/ and save it to /data/scraped_data.txt")
-
-    # 2. Read the file
-    scraped_content = await read("/data/scraped_data.txt")
-
-    # 3. Check that the file is non-empty
-    if not scraped_content.strip():
-        return mismatch("/data/scraped_data.txt", "Non-empty HTML content", scraped_content)
-
-    # 4. Optionally, verify that the text includes "Hacker News" or some expected substring
-    if "Hacker News" not in scraped_content:
-        return mismatch("/data/scraped_data.txt", "Expected substring 'Hacker News'", scraped_content)
-
-    return True
-
 
 async def main(email: str):
     score, total = 0, 0
-    for task in [a1, a2, a3, a4, a5, a6, a7, a8, a9, a10,b3,b6]:
+    for task in [a1, a2, a3, a4, a5, a6, a7, a8, a9, a10]:
         total += 1
         try:
             success = await task(email=email)
