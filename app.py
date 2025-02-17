@@ -27,8 +27,6 @@ import os
 import re
 import httpx
 import json
-import asyncio
-asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
 
 app = FastAPI()
 
@@ -501,4 +499,4 @@ async def read_file(path: str = Query(..., description="File path to read")):
 
 if __name__ == "__main__":
     import uvicorn
-    uvicorn.run(app, host="127.0.0.1", port=8000)
+    uvicorn.run(app, host="0.0.0.0", port=8000)
