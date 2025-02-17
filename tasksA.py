@@ -8,9 +8,6 @@ import os
 import requests
 from scipy.spatial.distance import cosine
 from dotenv import load_dotenv
-from fastapi import HTTPException
-import subprocess
-import shutil
 
 load_dotenv()
 
@@ -36,8 +33,7 @@ def A2(prettier_version="prettier@3.4.2", filename="/data/format.md"):
         subprocess.run(command, check=True)
         print("Prettier executed successfully.")
     except subprocess.CalledProcessError as e:
-        print(f"An error occurred: {e}")
-
+        print(f"An error occurred: {e}")
 
 def A3(filename='/data/dates.txt', targetfile='/data/dates-wednesdays.txt', weekday=2):
     input_file = filename
